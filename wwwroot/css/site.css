@@ -1,0 +1,20 @@
+/*Write all of your CSS here*/
+form label , form input[type="submit"] {
+    display: block;
+}
+
+.btn {
+    border: 1px solid black;
+    margin-top: 1rem;
+    transition: opacity 0.2s ease 0s;
+}
+
+.btn:hover {
+    opacity: 0.6;
+}
+
+.center {
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+}

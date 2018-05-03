@@ -1,0 +1,46 @@
+<p style="color: red;">@ViewBag.Error</p>
+
+
+<h1>Welcome @ViewBag.User.FirstName</h1>
+<p><a href="/logout">Logout</a></p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Wedding</th>
+            <th>Date</th>
+            <th>Guest Count</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    @{
+        
+            @foreach(var wedding in ViewBag.Weddings)
+            {
+                <tr>
+                    <td>@wedding.WedderOne &amp; @wedding.WedderTwo</td>
+                    <td>@wedding.WeddingDate</td>
+                    <td>0</td>
+                    <td>
+                    @if(wedding.UserId == @ViewBag.User.Id)
+                    {
+                        <a href="/wedding/@wedding.Id/delete">Delete</a>
+                    }
+                    else if (!@ViewBag.User.WeddingsAttending.Contains(wedding))
+                    {
+                        <a href="/wedding/@wedding.Id/rsvp">RSVP</a>
+                    }
+                    </td>
+                </tr>
+            }
+            
+        
+        
+    }
+    </tbody>
+</table>
+
+<div class="row">
+    <a href="/wedding" class="btn">New Wedding</a>
+</div>

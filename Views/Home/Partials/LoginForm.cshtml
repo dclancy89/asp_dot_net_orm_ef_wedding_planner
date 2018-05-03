@@ -1,0 +1,12 @@
+@model WeddingPlanner.Models.LoginViewModel
+
+<form asp-controller="Home" asp-action="Login" method="POST">
+    <label asp-for="Email"></label>
+    <input asp-for="Email">
+
+    <label asp-for="Password"></label>
+    <input asp-for="Password">
+
+    <input type="submit" value="Login" class="btn">
+
+</form>
