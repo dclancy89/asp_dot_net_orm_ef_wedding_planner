@@ -1,3 +1,5 @@
+@using WeddingPlanner.Models;
+
 <p style="color: red;">@ViewBag.Error</p>
 
 
@@ -14,22 +16,20 @@
         </tr>
     </thead>
     <tbody>
-    @{
+    
         
-            @foreach(var wedding in ViewBag.Weddings)
+            @foreach(Wedding wedding in ViewBag.Weddings)
             {
                 <tr>
                     <td>@wedding.WedderOne &amp; @wedding.WedderTwo</td>
-                    <td>@wedding.WeddingDate</td>
-                    <td>0</td>
+                    <td>@wedding.WeddingDate.ToString("D")</td>
+                    <td>@wedding.Guests.Count()</td>
                     <td>
-                    @if(wedding.UserId == @ViewBag.User.Id)
-                    {
-                        <a href="/wedding/@wedding.Id/delete">Delete</a>
-                    }
-                    else if (!@ViewBag.User.WeddingsAttending.Contains(wedding))
-                    {
-                        <a href="/wedding/@wedding.Id/rsvp">RSVP</a>
+                    @{
+                        if(wedding.Guests.Where(g => g.UserId == Model.User.Id).SingleOrDefault() == null)
+                        {<td><a href="/wedding/@wedding.Id/rsvp">RSVP</a></td>}
+                        else
+                        {<td><a href="/wedding/@wedding.Id/unrsvp">Un-RSVP</a></td>}
                     }
                     </td>
                 </tr>
@@ -37,7 +37,7 @@
             
         
         
-    }
+   
     </tbody>
 </table>
 

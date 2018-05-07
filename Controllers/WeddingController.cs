@@ -39,12 +39,10 @@ namespace WeddingPlanner.Controllers
         {
             if(HttpContext.Session.GetInt32("id") != null)
             {
-                User myUser = _context.Users.Include( u => u.WeddingsAttending )
-                                        .ThenInclude( g => g.Wedding)
-                                    .SingleOrDefault(User => User.Id == HttpContext.Session.GetInt32("id"));
+                User myUser = _context.Users.SingleOrDefault(User => User.Id == HttpContext.Session.GetInt32("id"));
+                ViewBag.Weddings = _context.Weddings.Include(w => w.Guests).ToList();
 
                 ViewBag.User = myUser;
-                ViewBag.Weddings = _context.Weddings.ToList();
                 ViewBag.Error = TempData["error"];
                 return View();
             } else {
@@ -85,6 +83,32 @@ namespace WeddingPlanner.Controllers
             {
                 TempData["error"] = "Validation Failed";
             }
+            return RedirectToAction("Index", "Wedding");
+        }
+
+        [HttpGet]
+        [Route("wedding/{wedding_id}/rsvp")]
+        public IActionResult RSVP(int wedding_id)
+        {
+            GuestList newGuest = new GuestList
+            {
+                UserId = (int)HttpContext.Session.GetInt32("id"),
+                WeddingId = wedding_id
+            };
+
+            _context.Add(newGuest);
+            _context.SaveChanges();
+
+            return RedirectToAction("Index", "Wedding");
+        }
+
+        [HttpGet]
+        [Route("wedding/{wedding_id}/unrsvp")]
+        public IActionResult UnRSVP(int wedding_id)
+        {
+            GuestList Removal =  (GuestList)_context.GuestLists.Where(g => g.WeddingId == wedding_id)
+                                                    .Where(g => g.UserId == (int)HttpContext.Session.GetInt32("id"));
+
             return RedirectToAction("Index", "Wedding");
         }
     }
