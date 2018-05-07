@@ -106,8 +106,9 @@ namespace WeddingPlanner.Controllers
         [Route("wedding/{wedding_id}/unrsvp")]
         public IActionResult UnRSVP(int wedding_id)
         {
-            GuestList remove =  _context.GuestLists.Where(Guest => Guest.WeddingId == wedding_id)
-                                                    .Where(Guest => Guest.UserId == (int)HttpContext.Session.GetInt32("id"));
+            GuestList remove =  _context.GuestLists
+                            .SingleOrDefault(Guest => Guest.WeddingId == wedding_id && 
+                                                 Guest.UserId == (int)HttpContext.Session.GetInt32("id"));
 
             _context.Remove(remove);
             _context.SaveChanges();
