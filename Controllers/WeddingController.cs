@@ -40,7 +40,7 @@ namespace WeddingPlanner.Controllers
             if(HttpContext.Session.GetInt32("id") != null)
             {
                 User myUser = _context.Users.SingleOrDefault(User => User.Id == HttpContext.Session.GetInt32("id"));
-                ViewBag.Weddings = _context.Weddings.Include(w => w.Guests).ToList();
+                ViewBag.Weddings = _context.Weddings.Include(w => w.GuestLists).ToList();
 
                 ViewBag.User = myUser;
                 ViewBag.Error = TempData["error"];
@@ -106,8 +106,12 @@ namespace WeddingPlanner.Controllers
         [Route("wedding/{wedding_id}/unrsvp")]
         public IActionResult UnRSVP(int wedding_id)
         {
-            GuestList Removal =  (GuestList)_context.GuestLists.Where(g => g.WeddingId == wedding_id)
-                                                    .Where(g => g.UserId == (int)HttpContext.Session.GetInt32("id"));
+            GuestList remove =  _context.GuestLists.Where(Guest => Guest.WeddingId == wedding_id)
+                                                    .Where(Guest => Guest.UserId == (int)HttpContext.Session.GetInt32("id"));
+
+            _context.Remove(remove);
+            _context.SaveChanges();
+
 
             return RedirectToAction("Index", "Wedding");
         }

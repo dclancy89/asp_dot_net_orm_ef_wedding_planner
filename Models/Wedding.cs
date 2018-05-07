@@ -23,11 +23,11 @@ namespace WeddingPlanner.Models
 
         public DateTime UpdatedAt { get; set; }
 
-        public List<GuestList> Guests { get; set; }
+        public List<GuestList> GuestLists { get; set; }
 
         public Wedding()
         {
-            Guests = new List<GuestList>();
+            GuestLists = new List<GuestList>();
         }
 
     

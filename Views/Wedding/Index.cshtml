@@ -23,10 +23,10 @@
                 <tr>
                     <td>@wedding.WedderOne &amp; @wedding.WedderTwo</td>
                     <td>@wedding.WeddingDate.ToString("D")</td>
-                    <td>@wedding.Guests.Count()</td>
+                    <td>@wedding.GuestLists.Count()</td>
                     <td>
                     @{
-                        if(wedding.Guests.Where(g => g.UserId == Model.User.Id).SingleOrDefault() == null)
+                        if(wedding.GuestLists.Where(g => g.UserId == ViewBag.User.Id).SingleOrDefault() == null)
                         {<td><a href="/wedding/@wedding.Id/rsvp">RSVP</a></td>}
                         else
                         {<td><a href="/wedding/@wedding.Id/unrsvp">Un-RSVP</a></td>}
